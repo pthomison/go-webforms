@@ -22,12 +22,12 @@ type Message struct {
 }
 
 func (a *App) runServer() error {
-	db, err := gorm.Open(sqlite.Open("webforms.db"), &gorm.Config{})
+	var err error
+
+	a.db, err = gorm.Open(sqlite.Open("webforms.db"), &gorm.Config{})
 	if err != nil {
 		return err
 	}
-
-	a.db = db
 
 	err = a.db.AutoMigrate(&Message{})
 	if err != nil {
