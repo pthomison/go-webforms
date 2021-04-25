@@ -10,3 +10,4 @@ build: tidy
 
 clean:
 	rm -rf ./dist
+	rm ./*.db
