@@ -37,6 +37,7 @@ func (a *App) runServer() error {
 	http.Handle("/", http.RedirectHandler("/form", 302))
 	http.HandleFunc("/form", a.formHandler)
 	http.HandleFunc("/submit-message", a.submitMessageHandler)
+	// strip prefix is required for MIME type
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
 
 	fmt.Printf("Starting webserver on %v\n", ADDR)
