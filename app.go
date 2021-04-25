@@ -39,8 +39,8 @@ func (a *App) runServer() error {
 	http.HandleFunc("/submit-message", a.submitMessageHandler)
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
 
-	fmt.Printf("Starting webserver on %v:%v\n", HOST, PORT)
-	err = http.ListenAndServe(HOST+":"+PORT, nil)
+	fmt.Printf("Starting webserver on %v\n", ADDR)
+	err = http.ListenAndServe(ADDR, nil)
 	if err != nil {
 		return err
 	}
