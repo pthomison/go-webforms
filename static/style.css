@@ -1,1 +1,12 @@
-style.css
+#page {
+	height: 100vh;
+}
+
+#message-feed {
+	overflow: scroll;
+	max-height: 85vh;
+}
+
+#header {
+	height: 10vh;
+}

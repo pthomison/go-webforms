@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 	"html/template"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -21,6 +22,13 @@ type Message struct {
 	Name  string
 }
 
+type templateData struct {
+	Messages []Message
+	Stats    struct {
+		MessageCount int
+	}
+}
+
 func (a *App) runServer() error {
 	var err error
 
@@ -32,6 +40,15 @@ func (a *App) runServer() error {
 	err = a.db.AutoMigrate(&Message{})
 	if err != nil {
 		return err
+	}
+
+	for i := 0; i < 100; i++ {
+		result := a.db.Create(&Message{
+			Name:  "test user",
+			Email: "mail@example.com",
+			Body:  "message number: " + strconv.Itoa(i),
+		})
+		utils.Check(result.Error)
 	}
 
 	http.Handle("/", http.RedirectHandler("/form", 302))
@@ -58,13 +75,14 @@ func (a *App) formHandler(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("./html/form.html")
 	utils.Check(err)
 
-	t.Execute(w, messages)
+	t.Execute(w, &templateData{
+		Messages: messages,
+	})
 }
 
 func (a *App) submitMessageHandler(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	utils.Check(err)
-	fmt.Printf("post recieved: %+v\n", r)
 
 	result := a.db.Create(&Message{
 		Name:  strings.Join(r.Form["name"], ""),

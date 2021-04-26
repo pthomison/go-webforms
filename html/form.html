@@ -13,7 +13,7 @@
 
 <div id="page">
   <!-- Header -->
-  <div class="level">
+  <div class="level" id="header">
     <div class="level-item has-text-centered">
       <h1 class="title is-1">go-webforms</h1>
     </div>
@@ -55,10 +55,10 @@
 
     <!-- Message Feed -->
     <div class="column is-one-third">
-      <div class="box">
+      <div class="box" id="message-feed">
         <h2 class="subtitle is-2">Message Feed</h2>
 
-        {{ range . }}
+        {{ range .Messages }}
         <article class="message is-dark">
           <div class="message-header">
             <p>Dark</p>
@@ -70,6 +70,16 @@
           </div>
         </article>
         {{ end }} 
+
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="column is-one-third">
+      <div class="box">
+        <h2 class="subtitle is-2">Message Stats</h2>
+
+        <div class="box title is-5">Message Count: {{ len .Messages }}</div>
 
       </div>
     </div>
